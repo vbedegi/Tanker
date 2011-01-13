@@ -16,10 +16,6 @@ import java.util.Calendar;
 
 public class MainActivity extends Activity {
 
-
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +39,7 @@ public class MainActivity extends Activity {
 
     private void initializeUIForNewEntry() {
         EditText editText = (EditText) findViewById(R.id.datum);
+
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
         String value = format.format(calendar.getTime());
