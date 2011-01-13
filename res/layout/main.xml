@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+    <TableLayout android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:stretchColumns="1">
+        <TableRow android:layout_width="fill_parent">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Dátum"/>
+            <EditText android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/datum"
+                      android:inputType="date"/>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Összeg"/>
+            <EditText android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/osszeg"
+                      android:inputType="numberDecimal"
+                      android:selectAllOnFocus="true"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Ft/L"/>
+            <EditText android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/ar"
+                      android:inputType="numberDecimal"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Km óra állás"/>
+            <EditText android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/km"
+                      android:inputType="numberDecimal"/>
+        </TableRow>
+
+        <TableRow>
+            <Button android:layout_column="1"
+                    android:text="Kész"
+                    android:id="@+id/kesz"/>
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>
+
