@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -137,6 +139,35 @@ public class MainActivity extends Activity {
         View view = findViewById(id);
         if (view == null) return;
         view.setVisibility(View.INVISIBLE);
+    }
+
+    private static final int MENU_1 = Menu.FIRST + 1;
+    private static final int MENU_2 = Menu.FIRST + 2;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        populateMenu(menu);
+        return (super.onCreateOptionsMenu(menu));
+    }
+
+    private void populateMenu(Menu menu) {
+        menu.add(Menu.NONE, MENU_1, Menu.NONE, "History");
+        menu.add(Menu.NONE, MENU_2, Menu.NONE, "Summary");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return (applyMenuChoice(item) || super.onOptionsItemSelected(item));
+    }
+
+    private boolean applyMenuChoice(MenuItem item) {
+        switch (item.getItemId()) {
+            case MENU_1:
+                return true;
+            case MENU_2:
+                return true;
+        }
+        return false;  //To change body of created methods use File | Settings | File Templates.
     }
 }
 
