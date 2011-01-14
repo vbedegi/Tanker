@@ -55,6 +55,31 @@
         </TableRow>
     </TableLayout>
 
-
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content" android:text="Utolsó"
+              android:textSize="@android:dimen/thumbnail_width"/>
+    <TableLayout android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:stretchColumns="1"
+                 android:id="@+id/utolsoContainer">
+        <TableRow android:layout_width="fill_parent">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Dátum"
+                      android:paddingRight="5px"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/utolsodatum"/>
+        </TableRow>
+        <TableRow android:layout_width="fill_parent">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Összeg"
+                      android:paddingRight="5px"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/utolsoosszeg"/>
+        </TableRow>
+    </TableLayout>
 </LinearLayout>
 
