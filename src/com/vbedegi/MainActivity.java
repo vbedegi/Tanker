@@ -3,12 +3,14 @@ package com.vbedegi;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +27,7 @@ public class MainActivity extends Activity {
 
         setupUI();
         initializeUIForNewEntry();
+        initializeUIWithLastEntry();
     }
 
     private void setupUI() {
@@ -79,6 +82,7 @@ public class MainActivity extends Activity {
         ContentValues content = buildContentValuesToStore();
         insertIntoDb(content);
         Toast.makeText(this, "Tankolás elmentve", Toast.LENGTH_SHORT).show();
+        initializeUIWithLastEntry();
     }
 
     private void insertIntoDb(ContentValues content) {
@@ -88,9 +92,51 @@ public class MainActivity extends Activity {
         db.close();
     }
 
+    private void initializeUIWithLastEntry() {
+        SQLiteDatabase db = new DatabaseHelper(this).getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from tanker where id=(select max(id) from tanker)", null);
+
+        if (!cursor.moveToFirst()) {
+            hideView(R.id.utolsoContainer);
+            return;
+        }
+
+        showView(R.id.utolsoContainer);
+
+        int index;
+        String value;
+
+        index = cursor.getColumnIndex("osszeg");
+        value = cursor.getString(index);
+        setControlValue(R.id.utolsoosszeg, value);
+
+        index = cursor.getColumnIndex("datum");
+        value = cursor.getString(index);
+        setControlValue(R.id.utolsodatum, value);
+
+        cursor.close();
+    }
+
     private String getControlValue(int id) {
         EditText editText = (EditText) findViewById(id);
         return editText.getText().toString();
+    }
+
+    public void setControlValue(int id, String value) {
+        TextView textView = (TextView) findViewById(id);
+        textView.setText(value);
+    }
+
+    public void showView(int id) {
+        View view = findViewById(id);
+        if (view == null) return;
+        view.setVisibility(View.VISIBLE);
+    }
+
+    public void hideView(int id) {
+        View view = findViewById(id);
+        if (view == null) return;
+        view.setVisibility(View.INVISIBLE);
     }
 }
 
