@@ -16,8 +16,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends Activity {
 
@@ -115,6 +118,19 @@ public class MainActivity extends Activity {
 
         index = cursor.getColumnIndex("datum");
         value = cursor.getString(index);
+
+        DateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+        try {
+            Date date = formatter.parse(value);
+            Calendar then = Calendar.getInstance();
+            then.setTime(date);
+            Calendar now = Calendar.getInstance();
+            int elapsedDays = (int) ((now.getTimeInMillis() - then.getTimeInMillis())/(24*60*60*1000F));
+
+            value += " (" + Integer.toString(elapsedDays) + " napja)";
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         setControlValue(R.id.utolsodatum, value);
 
         cursor.close();
