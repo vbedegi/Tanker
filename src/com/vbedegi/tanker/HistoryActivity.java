@@ -57,9 +57,9 @@ public class HistoryActivity extends ListActivity {
                                     ContextMenu.ContextMenuInfo menuInfo) {
         if (view == listView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            menu.setHeaderTitle("Men�");
+            menu.setHeaderTitle("Menü");
 
-            menu.add(Menu.NONE, 0, 0, "T�r�l");
+            menu.add(Menu.NONE, 0, 0, "Töröl");
         }
     }
 
