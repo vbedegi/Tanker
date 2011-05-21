@@ -3,7 +3,9 @@
           package="com.vbedegi.tanker"
           android:versionCode="1"
           android:versionName="1.0">
-    <application android:label="Tanker" android:icon="@drawable/icon" android:debuggable="true">
+    <application android:label="Tanker"
+                 android:icon="@drawable/icon"
+                 android:debuggable="true">
         <activity android:name="MainActivity"
                   android:label="@string/app_name">
             <intent-filter>
@@ -23,6 +25,5 @@
         </receiver>
     </application>
 
-    <uses-permission
-            android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 </manifest>
