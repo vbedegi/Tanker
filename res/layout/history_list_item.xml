@@ -6,14 +6,37 @@
                  android:layout_width="fill_parent"
                  android:layout_height="wrap_content">
 
-    <TextView android:id="@android:id/text2"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              style="@android:style/TextAppearance.Large"/>
+    <LinearLayout android:id="@+id/row1"
+                  android:orientation="horizontal"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">
+        <TextView android:id="@android:id/text2"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  style="@android:style/TextAppearance.Large"
+                />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text=" Ft, "
+                  style="@android:style/TextAppearance.Large"
+                />
+        <TextView android:id="@+id/history_item_ar"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  style="@android:style/TextAppearance.Large"
+                />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text=" Ft/L"
+                  style="@android:style/TextAppearance.Large"
+                />
+    </LinearLayout>
+
 
     <TextView android:id="@android:id/text1"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:layout_below="@android:id/text2"
+              android:layout_below="@+id/row1"
               style="@android:style/TextAppearance.Medium"/>
+
 </TwoLineListItem>

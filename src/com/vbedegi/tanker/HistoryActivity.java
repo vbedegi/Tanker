@@ -33,8 +33,8 @@ public class HistoryActivity extends ListActivity {
 
     private SimpleCursorAdapter createListAdapter() {
         SimpleCursorAdapter adapter;
-        String[] columns = new String[]{"datum", "osszeg"};
-        int[] to = new int[]{android.R.id.text1, android.R.id.text2};
+        String[] columns = new String[]{"datum", "osszeg", "ar"};
+        int[] to = new int[]{android.R.id.text1, android.R.id.text2, R.id.history_item_ar};
 
         Cursor cursor = openDatabase();
         adapter = new SimpleCursorAdapter(
@@ -57,9 +57,9 @@ public class HistoryActivity extends ListActivity {
                                     ContextMenu.ContextMenuInfo menuInfo) {
         if (view == listView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            menu.setHeaderTitle("Menü");
+            menu.setHeaderTitle("Menï¿½");
 
-            menu.add(Menu.NONE, 0, 0, "Töröl");
+            menu.add(Menu.NONE, 0, 0, "Tï¿½rï¿½l");
         }
     }
 
@@ -75,7 +75,7 @@ public class HistoryActivity extends ListActivity {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Biztos?")
-                    .setMessage("Biztosan törlöd?")
+                    .setMessage("Biztosan tï¿½rlï¿½d?")
                     .setPositiveButton("Igen", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             deleteRecord(itemId);
