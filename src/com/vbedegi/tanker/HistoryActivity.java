@@ -75,7 +75,7 @@ public class HistoryActivity extends ListActivity {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Biztos?")
-                    .setMessage("Biztosan t�rl�d?")
+                    .setMessage("Biztosan törlöd?")
                     .setPositiveButton("Igen", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             deleteRecord(itemId);
