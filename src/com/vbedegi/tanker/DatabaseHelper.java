@@ -1,6 +1,7 @@
 package com.vbedegi.tanker;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -21,5 +22,12 @@ class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //db.execSQL("DROP TABLE tanker");
         //onCreate(db);
+    }
+
+    public Cursor getLastEntry() {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from tanker where _id=(select max(_id) from tanker)", null);
+        if (!cursor.moveToFirst()) return null;
+        return cursor;
     }
 }

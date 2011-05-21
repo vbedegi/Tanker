@@ -87,7 +87,7 @@ public class MainActivity extends Activity {
     private void store() {
         ContentValues content = buildContentValuesToStore();
         insertIntoDb(content);
-        Toast.makeText(this, "Tankol·s elmentve", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Tankol√°s elmentve", Toast.LENGTH_SHORT).show();
         initializeUIWithLastEntry();
     }
 
@@ -99,10 +99,8 @@ public class MainActivity extends Activity {
     }
 
     private void initializeUIWithLastEntry() {
-        SQLiteDatabase db = new DatabaseHelper(this).getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from tanker where _id=(select max(_id) from tanker)", null);
-
-        if (!cursor.moveToFirst()) {
+        Cursor cursor = new DatabaseHelper(this).getLastEntry();
+        if (cursor == null) {
             hideView(R.id.utolsoContainer);
             return;
         }
@@ -124,8 +122,9 @@ public class MainActivity extends Activity {
             Date date = formatter.parse(value);
             Calendar then = Calendar.getInstance();
             then.setTime(date);
+
             Calendar now = Calendar.getInstance();
-            int elapsedDays = (int) ((now.getTimeInMillis() - then.getTimeInMillis())/(24*60*60*1000F));
+            int elapsedDays = (int) ((now.getTimeInMillis() - then.getTimeInMillis()) / (24 * 60 * 60 * 1000F));
 
             value += " (" + Integer.toString(elapsedDays) + " napja)";
         } catch (ParseException e) {
