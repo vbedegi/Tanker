@@ -2,6 +2,7 @@ package com.vbedegi.tanker;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,14 +11,12 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.*;
 
 public class HistoryActivity extends ListActivity {
 
     private ListView listView;
-    private SimpleCursorAdapter adapter;
+    private CursorAdapter adapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,19 +30,9 @@ public class HistoryActivity extends ListActivity {
         registerForContextMenu(listView);
     }
 
-    private SimpleCursorAdapter createListAdapter() {
-        SimpleCursorAdapter adapter;
-        String[] columns = new String[]{"datum", "osszeg", "ar"};
-        int[] to = new int[]{android.R.id.text1, android.R.id.text2, R.id.history_item_ar};
-
+    private CursorAdapter createListAdapter() {
         Cursor cursor = openDatabase();
-        adapter = new SimpleCursorAdapter(
-                this,
-                R.layout.history_list_item,
-                cursor,
-                columns,
-                to);
-        return adapter;
+        return new HistoryCursorAdapter(this, R.layout.history_list_item, cursor);
     }
 
     private Cursor openDatabase() {
@@ -95,4 +84,31 @@ public class HistoryActivity extends ListActivity {
         db.execSQL("delete from tanker where _id=" + Integer.toString(id));
     }
 
+    class HistoryCursorAdapter extends ResourceCursorAdapter {
+
+        public HistoryCursorAdapter(Context context, int layout, Cursor c) {
+            super(context, layout, c);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            String datum = cursor.getString(cursor.getColumnIndex("datum"));
+            String osszeg = cursor.getString(cursor.getColumnIndex("osszeg"));
+            String ar = cursor.getString(cursor.getColumnIndex("ar")).trim();
+
+            if (ar.length() == 0 || ar == null) {
+                ar = "?";
+            }
+
+            setText(view, android.R.id.text1, datum);
+            setText(view, android.R.id.text2, osszeg);
+            setText(view, R.id.history_item_ar, ar);
+        }
+
+        private void setText(View view, int id, String value) {
+            TextView textView = (TextView) view.findViewById(id);
+            if (textView != null) textView.setText(value);
+        }
+    }
 }
+
