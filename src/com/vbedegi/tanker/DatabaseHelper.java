@@ -5,6 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "tanker";
     public static final String DATUM = "datum";
@@ -29,5 +34,15 @@ class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from tanker where _id=(select max(_id) from tanker)", null);
         if (!cursor.moveToFirst()) return null;
         return cursor;
+    }
+
+    public Date getLastDate() throws ParseException {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("select max(datum) as maxdatum from tanker", null);
+        if (!cursor.moveToFirst()) return null;
+
+        String value = cursor.getString(cursor.getColumnIndex("maxdatum"));
+        DateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+        return formatter.parse(value);
     }
 }
