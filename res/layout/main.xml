@@ -56,8 +56,10 @@
     </TableLayout>
 
     <TextView android:layout_width="fill_parent"
-              android:layout_height="wrap_content" android:text="Utolsó"
-              android:textSize="@android:dimen/thumbnail_width"/>
+              android:layout_height="wrap_content"
+              android:text="Utolsó"
+              android:textSize="14.5sp"
+            />
     <TableLayout android:layout_width="fill_parent"
                  android:layout_height="wrap_content"
                  android:stretchColumns="1"
