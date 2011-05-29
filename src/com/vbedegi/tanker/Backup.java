@@ -36,7 +36,15 @@ public class Backup {
     }
 
     private JSONObject createHistoryEntry(Cursor cursor) {
-        JSONObject entry= new JSONObject();
+        JSONObject entry = new JSONObject();
+
+        try {
+            entry.put("osszeg", cursor.getString(cursor.getColumnIndex("osszeg")));
+            entry.put("datum", cursor.getString(cursor.getColumnIndex("datum")));
+            entry.put("ar", cursor.getString(cursor.getColumnIndex("ar")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return entry;
     }
