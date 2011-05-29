@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -113,26 +112,20 @@ public class MainActivity extends Activity {
         index = cursor.getColumnIndex("osszeg");
         value = cursor.getString(index);
         setControlValue(R.id.utolsoosszeg, value);
-
-        index = cursor.getColumnIndex("datum");
-        value = cursor.getString(index);
-
-        DateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
-        try {
-            Date date = formatter.parse(value);
-            Calendar then = Calendar.getInstance();
-            then.setTime(date);
-
-            Calendar now = Calendar.getInstance();
-            int elapsedDays = (int) ((now.getTimeInMillis() - then.getTimeInMillis()) / (24 * 60 * 60 * 1000F));
-
-            value += " (" + Integer.toString(elapsedDays) + " napja)";
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        setControlValue(R.id.utolsodatum, value);
-
         cursor.close();
+
+        Date last = new Date();
+        try {
+            last = new DatabaseHelper(this).getLastDate();
+        } catch (Exception e) {
+
+            setControlValue(R.id.utolsodatum, "?");
+            e.printStackTrace();
+        }
+        DateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+        int elapsedDays = DateUtils.getElapsedDays(last);
+        value = formatter.format(last) + " (" + Integer.toString(elapsedDays) + " napja)";
+        setControlValue(R.id.utolsodatum, value);
     }
 
     private String getControlValue(int id) {
