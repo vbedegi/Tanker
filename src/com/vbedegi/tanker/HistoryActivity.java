@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class HistoryActivity extends ListActivity {
 
@@ -36,9 +39,7 @@ public class HistoryActivity extends ListActivity {
     }
 
     private Cursor openDatabase() {
-        DatabaseHelper helper = new DatabaseHelper(this);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        return db.rawQuery("select * from tanker order by _id desc", null);
+        return new DatabaseHelper(this).getHistory(true);
     }
 
     @Override
@@ -83,6 +84,43 @@ public class HistoryActivity extends ListActivity {
         SQLiteDatabase db = helper.getWritableDatabase();
         db.execSQL("delete from tanker where _id=" + Integer.toString(id));
     }
+
+    private static final int MENU_1 = Menu.FIRST + 1;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        populateMenu(menu);
+        return (super.onCreateOptionsMenu(menu));
+    }
+
+    private void populateMenu(Menu menu) {
+        menu.add(Menu.NONE, MENU_1, Menu.NONE, "Backup");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return (applyMenuChoice(item) || super.onOptionsItemSelected(item));
+    }
+
+    private boolean applyMenuChoice(MenuItem item) {
+        switch (item.getItemId()) {
+            case MENU_1:
+                backup();
+                return true;
+        }
+        return false;  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    private void backup() {
+        Backup backup = new Backup(new DatabaseHelper(this));
+        try {
+            JSONObject backupResult = backup.createBackup();
+
+        } catch (JSONException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
 
     class HistoryCursorAdapter extends ResourceCursorAdapter {
 

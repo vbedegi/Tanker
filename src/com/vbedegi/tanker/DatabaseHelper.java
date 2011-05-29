@@ -45,4 +45,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
         DateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
         return formatter.parse(value);
     }
+
+    public Cursor getHistory(boolean sortDescending) {
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "select * from tanker order by _id";
+        if (sortDescending) sql += " desc";
+        return db.rawQuery(sql, null);
+    }
 }
