@@ -6,7 +6,6 @@ import android.content.Context;
 import android.widget.RemoteViews;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 
 public class TankerAppWidgetProvider extends AppWidgetProvider {
@@ -29,11 +28,9 @@ public class TankerAppWidgetProvider extends AppWidgetProvider {
     private int getElapsedDays(Context context) {
         try {
             Date lastDate = new DatabaseHelper(context).getLastDate();
-            Calendar calendar = Calendar.getInstance();
-            Date now = calendar.getTime();
-            return now.getDate() - lastDate.getDate();
+            return DateUtils.getElapsedDays(lastDate);
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return 0;
     }
