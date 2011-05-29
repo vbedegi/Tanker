@@ -47,11 +47,7 @@ public class MainActivity extends Activity {
 
     private void initializeUIForNewEntry() {
         EditText editText = (EditText) findViewById(R.id.datum);
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
-        String value = format.format(calendar.getTime());
-        editText.setText(value);
+        editText.setText(DateUtils.toString(DateUtils.now()));
 
         editText = (EditText) findViewById(R.id.osszeg);
         editText.setText("10000");
