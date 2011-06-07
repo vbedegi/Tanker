@@ -59,4 +59,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("tanker", DatabaseHelper.DATUM, content);
         db.close();
     }
+
+    public void clearAll() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("delete from tanker");
+    }
 }
