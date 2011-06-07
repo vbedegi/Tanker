@@ -1,19 +1,24 @@
 package com.vbedegi.tanker;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
-import com.dropbox.client.DropboxAPI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 
 public class Backup {
+
+    private Context context;
     private DatabaseHelper databaseHelper;
 
-    public Backup(DatabaseHelper databaseHelper) {
-        this.databaseHelper = databaseHelper;
+    public Backup(Context context) {
+        this.context = context;
+        databaseHelper = new DatabaseHelper(context);
     }
 
     public JSONObject createBackup() throws JSONException {
@@ -74,8 +79,9 @@ public class Backup {
     }
 
     private void dbox(File file) {
-        DropboxAPI api = new DropboxAPI();
-//        api.putFile("/tanker","/tanker", file);
+        DropBoxUploader uploader = new DropBoxUploader(context);
+        uploader.upload(file);
+
     }
 }
 

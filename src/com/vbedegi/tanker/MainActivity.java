@@ -88,9 +88,7 @@ public class MainActivity extends Activity {
 
     private void insertIntoDb(ContentValues content) {
         DatabaseHelper helper = new DatabaseHelper(this);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        db.insert("tanker", DatabaseHelper.DATUM, content);
-        db.close();
+        helper.insertEntry(content);
     }
 
     private void initializeUIWithLastEntry() {

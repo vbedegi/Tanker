@@ -1,5 +1,6 @@
 package com.vbedegi.tanker;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -51,5 +52,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
         String sql = "select * from tanker order by _id";
         if (sortDescending) sql += " desc";
         return db.rawQuery(sql, null);
+    }
+
+    public void insertEntry(ContentValues content) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert("tanker", DatabaseHelper.DATUM, content);
+        db.close();
     }
 }

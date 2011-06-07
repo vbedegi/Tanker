@@ -2,9 +2,9 @@ package com.vbedegi.tanker;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.backup.RestoreObserver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.*;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class HistoryActivity extends ListActivity {
 
@@ -86,6 +88,7 @@ public class HistoryActivity extends ListActivity {
     }
 
     private static final int MENU_1 = Menu.FIRST + 1;
+    private static final int MENU_2 = Menu.FIRST + 2;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,6 +98,7 @@ public class HistoryActivity extends ListActivity {
 
     private void populateMenu(Menu menu) {
         menu.add(Menu.NONE, MENU_1, Menu.NONE, "Backup");
+        menu.add(Menu.NONE, MENU_2, Menu.NONE, "Restore");
     }
 
     @Override
@@ -105,14 +109,17 @@ public class HistoryActivity extends ListActivity {
     private boolean applyMenuChoice(MenuItem item) {
         switch (item.getItemId()) {
             case MENU_1:
-                backup();
+                //backup();
+                return true;
+            case MENU_2:
+                restore();
                 return true;
         }
         return false;  //To change body of created methods use File | Settings | File Templates.
     }
 
     private void backup() {
-        Backup backup = new Backup(new DatabaseHelper(this));
+        Backup backup = new Backup(this);
         try {
             JSONObject backupResult = backup.createBackup();
 
@@ -121,6 +128,16 @@ public class HistoryActivity extends ListActivity {
         }
     }
 
+    private void restore(){
+        Restore restore = new Restore(this);
+        try {
+            restore.restore();
+        } catch (JSONException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
 
     class HistoryCursorAdapter extends ResourceCursorAdapter {
 
