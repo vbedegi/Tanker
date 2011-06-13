@@ -5,20 +5,24 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.vbedegi.tanker.dropbox.Dropbox;
+import com.vbedegi.tanker.dropbox.DropboxAPIFactory;
+import com.vbedegi.tanker.dropbox.DropboxLoginListener;
+import com.vbedegi.tanker.dropbox.DropboxUploadListener;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends Activity {

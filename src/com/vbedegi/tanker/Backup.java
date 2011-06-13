@@ -25,24 +25,7 @@ public class Backup {
         JSONObject root = new JSONObject();
 
         writeHeader(root);
-
         writeHistory(root);
-
-        String j = root.toString(4);
-
-
-        File path = Environment.getExternalStorageDirectory();
-        File file = new File(path, "tanker.json");
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            OutputStreamWriter writer = new OutputStreamWriter(out);
-            writer.write(j);
-            writer.flush();
-            writer.close();
-            dbox(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         return root;
     }
@@ -76,12 +59,6 @@ public class Backup {
 
     private void writeHeader(JSONObject root) throws JSONException {
         root.put("createdAt", DateUtils.toString(DateUtils.now()));
-    }
-
-    private void dbox(File file) {
-        DropBoxUploader uploader = new DropBoxUploader(context);
-        uploader.upload(file);
-
     }
 }
 

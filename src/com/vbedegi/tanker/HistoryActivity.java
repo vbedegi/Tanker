@@ -2,7 +2,7 @@ package com.vbedegi.tanker;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.backup.RestoreObserver;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -22,6 +21,7 @@ public class HistoryActivity extends ListActivity {
 
     private ListView listView;
     private CursorAdapter adapter;
+    private ProgressDialog progressDialog;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +33,9 @@ public class HistoryActivity extends ListActivity {
 
         listView = getListView();
         registerForContextMenu(listView);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("relax!");
     }
 
     private CursorAdapter createListAdapter() {
@@ -109,26 +112,53 @@ public class HistoryActivity extends ListActivity {
     private boolean applyMenuChoice(MenuItem item) {
         switch (item.getItemId()) {
             case MENU_1:
-                //backup();
+                backup();
                 return true;
             case MENU_2:
-                restore();
+                //restore();
                 return true;
         }
         return false;  //To change body of created methods use File | Settings | File Templates.
     }
 
     private void backup() {
-        Backup backup = new Backup(this);
-        try {
-            JSONObject backupResult = backup.createBackup();
-
-        } catch (JSONException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Biztos?")
+                .setMessage("Indulhat a backup a Dropbox-ra ?")
+                .setPositiveButton("Igen", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        startBackup();
+                    }
+                })
+                .setNegativeButton("Nem", null)
+                .show();
     }
 
-    private void restore(){
+    private void startBackup() {
+        final Context ctx = this;
+
+        progressDialog.setMessage("backing up...");
+        progressDialog.show();
+
+        AsyncListener<Void, Void> listener = new AsyncListener<Void, Void>() {
+            @Override
+            public void completed(Void... result) {
+                progressDialog.dismiss();
+                Toast.makeText(ctx, "backup kész", 2000);
+            }
+
+            @Override
+            public void failed(Void... result) {
+                progressDialog.dismiss();
+                Toast.makeText(ctx, "hiba a backup közben", 2000);
+            }
+        };
+        BackupAsyncTask task = new BackupAsyncTask(this, listener);
+        task.execute();
+    }
+
+    private void restore() {
         Restore restore = new Restore(this);
         try {
             restore.restore();
